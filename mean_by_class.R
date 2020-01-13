@@ -16,7 +16,9 @@ mean_by_class <- function(dataset,
                            no_obs = length(get(reponse))
   )
   
-  
+  output <- output %>% 
+    dplyr::mutate_if(is.numeric,
+                      )
               
   
   
