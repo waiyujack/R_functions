@@ -1,25 +1,34 @@
-library(plyr)
-
 mean_by_class <- function(dataset,
                  factors,
                  response) {
   
-  #INPUT: dataset
-  #       classes
-  #       response
-  #OUTPUT
+  ##########################################################
+  # INPUT: 
+  #   dataset
+  #   classes
+  #   response
+  # OUTPUT:
+  #   
+  ##########################################################
   
-  output <- plyr::ddply(.data = dataset,
-                       .variables = factors,
-                       .fun = summarise,
-                           mean_response = mean(get(reponse),na.rm = T),
-                           no_obs = length(get(reponse))
-  )
+  ## Find mean response by class
   
-  output <- output %>% 
-    dplyr::mutate_if(is.numeric,
-                      )
-              
+  output <- dataset %>%
+    dplyr::group_by_at(factors) %>% 
+    dplyr::summarise(no_obs = n(),
+                     mean_response = mean(get(response))) %>%
+                       dplyr::mutate(exposure_by_group = no_obs / sum(no_obs)) %>% 
+    dplyr::ungroup()%>%
+    dplyr::mutate(exposure = no_obs / sum(no_obs))
+                     
+  ## Find exposure
   
+  output <- output %>%
+    dplyr::mutate_if(is.numeric,round,4)
+  
+  ## Return output as dataframe
+  
+  return(output)
   
 }
+
