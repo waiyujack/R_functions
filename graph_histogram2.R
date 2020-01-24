@@ -1,14 +1,27 @@
-graph_histogram <- function(dataset,
-                            factors){
+graph_histogram <- function(factor1,factor2=NULL){
   
   ##########################################################
   # INPUT: 
-  #
+  # factor1 - a vector of numerics
+  # factor2 - a vector of numerics
   # OUTPUT:
-  #   
+  # A plotly chart of histogram (if factor 2 is not null then histogram split by 
+  # factor2)
   ##########################################################
   
-  ## Summarise data using count, exposure, exposure split by second factor
+  if(is.null(factor2)){
+    
+    dataset <- data.frame(factor1 = factor1)
+    
+  }else{
+    
+    dataset <- data.frame(factor1 = factor1,
+                          factor2 = factor2
+                          )
+    
+  }
+  
+  factors <- ifelse(is.null(factor2),"factor1",c("factor1","factor2"))
   
   temp <- dataset %>%
     dplyr::group_by_at(factors) %>% #group by factors
