@@ -14,12 +14,19 @@ dummy_data <- data.frame(y = rnorm(100),
 mean_by_class(dataset = dummy_data,
               factors = "X1",
               response = "y"
-              )
-
-
-plyr::ddply(    .data = dummy_data,
-                .variables = "X1",
-                .fun = plyr::summarise,
-                mean_response = mean(y,na.rm = T),
-                no_obs = length(y))
 )
+
+## Mean response by 2 classes
+mean_by_class(dataset = dummy_data,
+              factors = c("X1","X2"),
+              response = "y"
+)
+
+## Histogram for 1 variable
+graph_histogram(dataset = dummy_data,
+                factors = c("X1"))
+
+
+## Histogram for 2 variables
+graph_histogram(dataset = dummy_data,
+                factors = c("X2","X1"))
