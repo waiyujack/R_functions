@@ -11,10 +11,10 @@ graph_histogram <- function(dataset,
   ## Summarise data using count, exposure, exposure split by second factor
   
   temp <- dataset %>%
-    dplyr::group_by_at(factors) %>% 
-    dplyr::summarise(no_obs = n()) %>%
-    dplyr::mutate(exposure_by_group = no_obs / sum(no_obs),
-                  cum_exposure_by_group = cumsum(exposure_by_group)) %>% 
+    dplyr::group_by_at(factors) %>% #group by factors
+    dplyr::summarise(no_obs = n()) %>% #count
+    dplyr::mutate(exposure_by_group = no_obs / sum(no_obs), #by first group exposure
+                  cum_exposure_by_group = cumsum(exposure_by_group)) %>% #cumulative exposure
     dplyr::ungroup()%>%
     dplyr::mutate(exposure = no_obs / sum(no_obs))%>%
     dplyr::mutate_if(is.numeric,round,4)
@@ -30,7 +30,8 @@ graph_histogram <- function(dataset,
                          hoverinfo = 'text',
                          text = paste('</br> Factor: ', temp[[factors[1]]],
                                       '</br> Count: ', temp[["no_obs"]],
-                                      '</br> Exposure: ', temp[["exposure"]]                         )
+                                      '</br> Exposure: ', temp[["exposure"]] ,
+                                      '</br> Exposure: ', temp[["cum_exposure_by_group"]])
     )
     
   }else if(length(factors) ==2){
