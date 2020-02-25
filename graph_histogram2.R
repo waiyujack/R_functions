@@ -21,7 +21,7 @@ graph_histogram <- function(factor1,factor2=NULL){
     
   }
   
-  factors <- ifelse(is.null(factor2),"factor1",c("factor1","factor2"))
+    factors <- if(is.null(factor2)){"factor1"}else{c("factor1","factor2")}
   
   temp <- dataset %>%
     dplyr::group_by_at(factors) %>% #group by factors
