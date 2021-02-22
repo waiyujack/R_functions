@@ -24,7 +24,7 @@ graph_histogram <- function(factor1,factor2=NULL){
     factors <- if(is.null(factor2)){"factor1"}else{c("factor1","factor2")}
   
   temp <- dataset %>%
-    dplyr::group_by_at(factors[Length(factors):1]) %>% #group by factors
+    dplyr::group_by_at(factors[length(factors):1]) %>% #group by factors
     dplyr::summarise(no_obs = dplyr::n()) %>% #count
     dplyr::mutate(exposure_by_group = no_obs / sum(no_obs), #by first group exposure
                   cum_exposure_by_group = cumsum(exposure_by_group)) %>% #cumulative exposure
